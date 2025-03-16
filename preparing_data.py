@@ -35,16 +35,15 @@ def process_folder(input_folder, output_folder, new_size=256):
         resize_and_crop(input_path, output_path, new_size=new_size)
 
 
-def cut(image_path, output_path, cut_size=3):
-    img = cv2.imread(image_path)
+def cut(img, cut_size=3):
     h, w = img.shape[:2]
     x_start = random.randint(0, w-cut_size)
     y_start = random.randint(0, h-cut_size)
     img[y_start:y_start+cut_size, x_start:x_start+cut_size] = 0
-    cv2.imwrite(output_path, img)
+    return img
 
 
-def prepare_impainting(input_folder, output_folder, cut_size=3, samples=10):
+def prepare_impainting(input_folder, output_folder, samples=10):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -57,37 +56,40 @@ def prepare_impainting(input_folder, output_folder, cut_size=3, samples=10):
             if not os.path.exists(output_path):
                 os.makedirs(output_path)
             output_path = os.path.join(output_path, str(i)+os.extsep+ext)
-            cut(input_path, output_path, cut_size)
+            img = cv2.imread(input_path)
+            for i in range(random.randint(5, 15)):
+                cut(img, 3)
+            for i in range(random.randint(1, 3)):
+                cut(img, 32)
+            cv2.imwrite(output_path, img)
 
 
-# Preparing data: orignal data -> 256 x 256
-input_folder = "./data/raw/train"
-output_folder = "./data/intermediate/train"
-process_folder(input_folder, output_folder)
+# # Preparing data: orignal data -> 256 x 256
+# input_folder = "./data/raw/train"
+# output_folder = "./data/intermediate/train"
+# process_folder(input_folder, output_folder)
 
-input_folder = "./data/raw/valid"
-output_folder = "./data/intermediate/valid"
-process_folder(input_folder, output_folder)
+# input_folder = "./data/raw/valid"
+# output_folder = "./data/intermediate/valid"
+# process_folder(input_folder, output_folder)
 
-# Prepare for scalling task: 256 x 256 -> 32 x 32
-input_folder = "./data/intermediate/train"
-output_folder = "./data/scalling/train"
-process_folder(input_folder, output_folder, 32)
+# # Prepare for scalling task: 256 x 256 -> 32 x 32
+# input_folder = "./data/intermediate/train"
+# output_folder = "./data/scalling/train"
+# process_folder(input_folder, output_folder, 32)
 
-input_folder = "./data/intermediate/valid"
-output_folder = "./data/scalling/valid"
-process_folder(input_folder, output_folder, 32)
+# input_folder = "./data/intermediate/valid"
+# output_folder = "./data/scalling/valid"
+# process_folder(input_folder, output_folder, 32)
 
-# Preparing for inpainting: Removing random squares from image
-samples = 10
-cut_size = 32
+# # Preparing for inpainting: Removing random squares from image
 
 input_folder = "./data/intermediate/train"
 output_folder = "./data/inpainting/train"
-prepare_impainting(input_folder, output_folder, cut_size=cut_size,
-                   samples=samples)
+prepare_impainting(input_folder, output_folder,
+                   samples=10)
 
 input_folder = "./data/intermediate/valid"
 output_folder = "./data/inpainting/valid"
-prepare_impainting(input_folder, output_folder, cut_size=cut_size,
-                   samples=samples)
+prepare_impainting(input_folder, output_folder,
+                   samples=3)
