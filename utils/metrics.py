@@ -15,7 +15,7 @@ def SNE(img1: np.ndarray, img2: np.ndarray):
     return result
 
 
-def PSNR(img1: np.ndarray, img2: np.ndarray, MAX=255):
+def PSNR(img1: np.ndarray, img2: np.ndarray, MAX=1):
     MSE = SNE(img1, img2) / img1.size
     return 10 * log10(pow(MAX, 2)/MSE)
 
@@ -69,8 +69,8 @@ def plot_metrics(imgs_groundtruth: list[np.ndarray], imgs_cv2: list[np.ndarray],
     # SNE
     axs[0].plot(sne_cv2_list, label="cv2", linestyle=' ', marker="o")
     axs[0].plot(sne_model_list, label="model", linestyle=' ', marker="s")
-    axs[0].set_title(f"SNE\n(cv2: {mean_sne_cv2:.4f}, model: {mean_sne_model:.4f})")
-    axs[0].set_xlabel("Obraz")
+    axs[0].set_title("SNE")
+    axs[0].set_xlabel("Image number")
     axs[0].set_ylabel("SNE")
     axs[0].legend()
     axs[0].grid(True)
@@ -78,8 +78,8 @@ def plot_metrics(imgs_groundtruth: list[np.ndarray], imgs_cv2: list[np.ndarray],
     # PSNR
     axs[1].plot(psnr_cv2_list, label="cv2", linestyle=' ', marker="o")
     axs[1].plot(psnr_model_list, label="model", linestyle=' ', marker="s")
-    axs[1].set_title(f"PSNR\n(cv2: {mean_psnr_cv2:.4f}, model: {mean_psnr_model:.4f})")
-    axs[1].set_xlabel("Obraz")
+    axs[1].set_title("PSNR")
+    axs[1].set_xlabel("Image number")
     axs[1].set_ylabel("PSNR")
     axs[1].legend()
     axs[1].grid(True)
@@ -87,8 +87,8 @@ def plot_metrics(imgs_groundtruth: list[np.ndarray], imgs_cv2: list[np.ndarray],
     # SSIM
     axs[2].plot(ssim_cv2_list, label="cv2", linestyle=' ', marker="o")
     axs[2].plot(ssim_model_list, label="model", linestyle=' ', marker="s")
-    axs[2].set_title(f"SSIM\n(cv2: {mean_ssim_cv2:.4f}, model: {mean_ssim_model:.4f})")
-    axs[2].set_xlabel("Obraz")
+    axs[2].set_title("SSIM")
+    axs[2].set_xlabel("Image number")
     axs[2].set_ylabel("SSIM")
     axs[2].legend()
     axs[2].grid(True)
@@ -96,11 +96,21 @@ def plot_metrics(imgs_groundtruth: list[np.ndarray], imgs_cv2: list[np.ndarray],
     # LPIPS
     axs[3].plot(lpips_cv2_list, label="cv2", linestyle=' ', marker="o")
     axs[3].plot(lpips_model_list, label="model", linestyle=' ', marker="s")
-    axs[3].set_title(f"LPIPS\n(cv2: {mean_lpips_cv2:.4f}, model: {mean_lpips_model:.4f})")
-    axs[3].set_xlabel("Obraz")
+    axs[3].set_title("LPIPS")
+    axs[3].set_xlabel("Image number")
     axs[3].set_ylabel("LPIPS")
     axs[3].legend()
     axs[3].grid(True)
 
     plt.tight_layout()
     plt.show()
+
+    print(f"""Metrics:
+--------------------------------------------------
+| Metric  | cv2        | Model      | Which Better
+--------------------------------------------------
+| SNE     | {mean_sne_cv2:10.4f} | {mean_sne_model:10.4f} | {"model" if mean_sne_cv2 > mean_sne_model else "cv2"}
+| PSNR    | {mean_psnr_cv2:10.4f} | {mean_psnr_model:10.4f} | {"model" if mean_psnr_cv2 < mean_psnr_model else "cv2"}
+| SSIM    | {mean_ssim_cv2:10.4f} | {mean_ssim_model:10.4f} | {"model" if mean_ssim_cv2 < mean_ssim_model else "cv2"}
+| LPIPS   | {mean_lpips_cv2:10.4f} | {mean_lpips_model:10.4f} | {"model" if mean_lpips_cv2 > mean_lpips_model else "cv2"}
+--------------------------------------------------""")
