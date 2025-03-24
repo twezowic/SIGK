@@ -17,6 +17,7 @@ python preparing_data.py
 ## Zadanie 1 Scaling
 
 Wejście to obrazy w rozdzielczości 32 x 32, zaś wyjście to obrazy w rozdzielczości 256 x 256.
+Dane zostały przygotowane przez interpolacją dwuliniową: cv2.INTER_LINEAR.
 
 Wyniki znajdują się w pliku [scaling.ipynb](scaling.ipynb).
 
