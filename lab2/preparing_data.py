@@ -1,6 +1,12 @@
 import os
 import cv2
-from utils import read_exr
+import numpy as np
+
+def read_exr(im_path: str) -> np.ndarray:
+    return cv2.imread(
+    filename=im_path,
+    flags=cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH
+    )
 
 os.environ['OPENCV_IO_ENABLE_OPENEXR'] = "1"
 
