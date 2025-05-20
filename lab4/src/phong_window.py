@@ -2,6 +2,7 @@ import os.path
 
 import moderngl
 import numpy as np
+from random import randint
 from PIL import Image
 from pyrr import Matrix44
 
@@ -27,13 +28,13 @@ class PhongWindow(BaseWindow):
         self.ctx.enable(moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
         # todo: Randomize
-        model_translation = np.random.uniform(-20, 20, 3)
+        model_translation = np.random.randint(-20, 20, 3)
         # [5.0, 0.0, 0.0]
-        material_diffuse = np.random.uniform(0, 255, 3) / 255.0
+        material_diffuse = np.random.randint(0, 255, 3) / 255.0
         # [1.0, 0.0, 0.0]
-        material_shininess = np.random.uniform(3, 20, 1)
+        material_shininess = randint(3, 20)
         # 5
-        light_position = np.random.uniform(-20, 20, 3)
+        light_position = np.random.randint(-20, 20, 3)
         # [15.0, 5.0, 0.0]
 
         camera_position = [5.0, 5.0, 15.0]
