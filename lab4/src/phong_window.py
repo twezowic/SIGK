@@ -79,7 +79,7 @@ class PhongWindow(BaseWindow):
             img.save(os.path.join(self.output_path, f'image_{self.frame:04}.png'))
             if self.frame == 0:
                 with open("data.csv", "w") as fh:
-                    fh.write("frame, model_translation, material_diffuse, material_shininess, light_position\n")
+                    fh.write("frame,model_translation,material_diffuse,material_shininess,light_position\n")
             with open("data.csv", "a") as fh:
-                fh.write(f"{self.frame}, {model_translation}, {material_diffuse}, {material_shininess}, {light_position}\n")
+                fh.write(f"{self.frame},\"{model_translation.tolist()}\",{material_diffuse},{material_shininess},{light_position}\n")
             self.frame += 1
