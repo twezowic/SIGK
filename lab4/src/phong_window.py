@@ -81,5 +81,5 @@ class PhongWindow(BaseWindow):
                 with open("data.csv", "w") as fh:
                     fh.write("frame,model_translation,material_diffuse,material_shininess,light_position\n")
             with open("data.csv", "a") as fh:
-                fh.write(f"{self.frame},\"{model_translation.tolist()}\",{material_diffuse},{material_shininess},{light_position}\n")
+                fh.write(f"{self.frame},\"{model_translation.tolist()}\",\"{material_diffuse.tolist()}\",{material_shininess},\"{light_position.tolist()}\"\n")
             self.frame += 1
