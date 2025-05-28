@@ -2,3 +2,4 @@
 *.exr
 __pycache__*
 /lab5/atd_12k
+*.csv
