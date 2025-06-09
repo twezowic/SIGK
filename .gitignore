@@ -3,3 +3,5 @@
 __pycache__*
 /lab5/atd_12k
 *.csv
+
+/lab5/MemFlow

@@ -84,6 +84,14 @@ def inference(cfg, image1, image2, save=False, verbose=False):
 
 
 def generates_flow(img1, img2, save=False, verbose=False):
+    img1 = (img1 + 1) / 2
+    img1 = np.transpose(img1, (1, 2, 0))
+    img1 = (img1.numpy() * 255).astype(np.uint8)
+
+    img2 = (img2 + 1) / 2
+    img2 = np.transpose(img2, (1, 2, 0))
+    img2 = (img2.numpy() * 255).astype(np.uint8)
+
     cfg = get_cfg()
 
     cfg.name = "MemFlowNet"
