@@ -1,13 +1,10 @@
 from __future__ import print_function, division
-import argparse
 from loguru import logger as loguru_logger
-import random
 import sys
 import os
 import numpy as np
 import torch
 from PIL import Image
-import cv2
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'MemFlow'))
 sys.path.append('core')
